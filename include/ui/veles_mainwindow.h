@@ -46,6 +46,7 @@ class DockWidget : public QDockWidget {
  public:
   DockWidget();
   virtual ~DockWidget();
+  bool markedAsActive();
   const QAction* maximizeHereAction();
   static DockWidget* getParentDockWidget(QObject* obj);
 
@@ -60,6 +61,7 @@ class DockWidget : public QDockWidget {
   void centerTitleBarOnPosition(QPoint pos);
   void splitHorizontally();
   void splitVertically();
+  void setMarkedAsActive(bool active);
 
  protected:
   void moveEvent(QMoveEvent *event) Q_DECL_OVERRIDE;
@@ -82,6 +84,7 @@ class DockWidget : public QDockWidget {
   QAction* split_horizontally_action_;
   QAction* split_vertically_action_;
   QWidget* empty_title_bar_;
+  bool marked_as_active_;
 };
 
 /*****************************************************************************/
@@ -154,6 +157,7 @@ class MainWindowWithDetachableDockWidgets: public QMainWindow {
   void childAddedNotify(QObject* child);
   void updateDockWidgetTitleBars();
   void updateCloseButtonsOnTabBars();
+  void updateActiveDockWidget();
   void updateDocksAndTabs();
 
  signals:

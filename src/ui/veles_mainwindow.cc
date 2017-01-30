@@ -47,7 +47,8 @@ namespace ui {
 /*****************************************************************************/
 
 DockWidget::DockWidget() : QDockWidget(), timer_id_(0), ticks_(0),
-    context_menu_(nullptr), empty_title_bar_(new QWidget(this)) {
+    context_menu_(nullptr), empty_title_bar_(new QWidget(this)),
+    marked_as_active_(false) {
   setAttribute(Qt::WidgetAttribute::WA_DeleteOnClose);
   setContextMenuPolicy(Qt::CustomContextMenu);
   auto first_main_window =
@@ -72,6 +73,10 @@ DockWidget::~DockWidget() {
   if (timer_id_) {
     killTimer(timer_id_);
   }
+}
+
+bool DockWidget::markedAsActive() {
+  return marked_as_active_;
 }
 
 const QAction* DockWidget::maximizeHereAction() {
@@ -207,6 +212,10 @@ void DockWidget::splitVertically() {
       parent->splitDockWidget2(sibling, this, Qt::Vertical);
     }
   }
+}
+
+void DockWidget::setMarkedAsActive(bool active) {
+  marked_as_active_ = active;
 }
 
 void DockWidget::centerTitleBarOnPosition(QPoint pos) {
@@ -927,9 +936,14 @@ void MainWindowWithDetachableDockWidgets::updateCloseButtonsOnTabBars() {
   }
 }
 
+void MainWindowWithDetachableDockWidgets::updateActiveDockWidget() {
+
+}
+
 void MainWindowWithDetachableDockWidgets::updateDocksAndTabs() {
   updateCloseButtonsOnTabBars();
   updateDockWidgetTitleBars();
+  updateActiveDockWidget();
   layout()->invalidate();
 }
 
