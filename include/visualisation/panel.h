@@ -27,7 +27,7 @@
 
 #include <map>
 
-#include "ui/veles_mainwindow.h"
+#include "ui/dockwidget.h"
 #include "visualisation/base.h"
 #include "visualisation/minimap_panel.h"
 
